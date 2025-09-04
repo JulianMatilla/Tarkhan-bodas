@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Evento - Tarkhan</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: auto; }
+        .preview { margin-top: 20px; }
+        .event-url { margin-top: 20px; font-weight: bold; color: green; }
+    </style>
+    <script>
+        function generateEventCode() {
+            const name = document.getElementById('novios').value.trim().replace(/\s+/g, '-').toLowerCase();
+            const date = document.getElementById('fecha').value;
+            if (!name || !date) {
+                alert("Por favor, completa el nombre y la fecha.");
+                return;
+            }
+            const baseCode = name + "-" + date;
+            let code = baseCode;
+            let count = 1;
+            while (localStorage.getItem(code)) {
+                code = baseCode + "-" + count;
+                count++;
+            }
+            localStorage.setItem(code, JSON.stringify({ portada: "RandomFileName_b2c7ee1e-c72e-4dea-ac55-7e918888d548.png" }));
+            const url = window.location.origin + "/evento/" + code;
+            document.getElementById('event-url').innerText = "URL del evento: " + url;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Crear Evento de Boda - Tarkhan</h1>
+        <label>Nombre de los novios:</label><br>
+        <input type="text" id="novios" placeholder="Ej. Ana y Luis"><br><br>
+        <label>Fecha de la boda:</label><br>
+        <input type="date" id="fecha"><br><br>
+        <label>Foto de portada:</label><br>
+        <img src="RandomFileName_b2c7ee1e-c72e-4dea-ac55-7e918888d548.png" alt="Foto de portada" width="100%" class="preview"><br><br>
+        <button onclick="generateEventCode()">Crear Evento</button>
+        <div id="event-url" class="event-url"></div>
+    </div>
+</body>
+</html>
